@@ -98,29 +98,54 @@ var InputTag = React.createClass({
     }
 });
 var Note = React.createClass({
+    getInitialState(){
+        return {onEdit:false}
+    },
+    delete(){
+
+    },
+    edit(){
+        this.state.onEdit=true;
+        this.setState(this.state);
+    },
+    cancel(){
+        this.state.onEdit=false;
+        this.setState(this.state);
+    },
     render(){
-        return(
+        if(this.state.onEdit){
+            return(
+                <div className='div-note'>
+                    <img src={this.props.srcH} className='imgNB' />
+                    <input defaultValue={this.props.children}/>
+                    <button onClick={this.save}>Save</button>
+                    <button onClick={this.cancel}>Cancel</button>
+                </div>
+            );
+        }else{
+            return(
             <div className='div-note'>
                 <img src={this.props.srcH} className='imgNB' />
                 <h1>{this.props.children}</h1>
+                <button onClick={this.delete}>Delete</button>
+                <button onClick={this.edit}>Edit</button>
             </div>
-        );
-    }
+            );
+        }
+        
+    },
+
 });
 var DivRight = React.createClass({
     getInitialState(){
         list = this;
         return {
-            mang:[
-                {text:'Hello',srcHinh:"images/1.jpeg"},
-                {text:'Hi',srcHinh:"images/2.jpeg"},
-                {text:'Thanh Cong',srcHinh:"images/3.jpeg"}
-           ]
+            mang:[]
         }
     },
     add(){
         var text = this.refs.text.value;
-        this.state.mang.push({text:text,srcHinh:"images/4.jpeg"});
+        this.state.mang.push({text:text});
         this.setState(this.state);
     },
     addInput(){
@@ -137,13 +162,14 @@ var DivRight = React.createClass({
                     return <Note key={index} srcH={note.srcHinh}>{note.text}</Note>
                     
                 })}
-                <div>
-                    <input ref='text'/>
-                    <button onClick={this.add}>Add Note</button>
-                </div>
                 <div id='div-input'></div>
             </div>
         );
+    },
+    componentDidMount(){
+        $.get("/getNote",function(data){
+            this.setState({mang:data});
+        });
     }
 });
 ReactDOM.render(
