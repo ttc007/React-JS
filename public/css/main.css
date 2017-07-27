@@ -1,0 +1,22 @@
+body {
+    margin:1% 10%;
+}
+.main{
+          /*margin:0 5em;*/
+}
+.imgNB{
+    width: 100px;
+    height: 100px;
+}
+.div-note{
+	border:1px solid green;
+	margin: 3px;
+	padding: 5px;
+	border-radius: 5px;
+}
+.div-list{
+	border:1px solid blue;
+	margin: 3px;
+	padding: 5px;
+	border-radius: 5px;
+}
